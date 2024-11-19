@@ -257,5 +257,4 @@ while True:
     tk.update()
     time.sleep(0.01)
 
-tk.mainloop()
-    
+tk.mainloop() 
