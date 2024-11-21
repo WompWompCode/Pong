@@ -259,9 +259,6 @@ def main():
                 print("Womp Womp you lost your lives")
                 gameWinStatus = "loss"
                 livesNotification = True
-            gameStatusLabel = Label(win, text = "You win!", font = ("helvetica", 30))
-            gameStatusLabel.place(x = 500, y = 75)
-            gameStatusLabel.pack()
         paddle1.draw()
         
         for Brick in Bricks:
@@ -273,6 +270,7 @@ def main():
                 BrickHitNotification = True
             gameStatusLabel = Label(win, text = "You win!", font = ("helvetica", 30))
             gameStatusLabel.place(x = 500, y = 75)
+            gameStatusLabel.pack()
             
         for Barrier in Barriers:
             Barrier.draw()
