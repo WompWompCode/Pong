@@ -216,11 +216,11 @@ def main():
                     
                     
                 for Brick in Bricks:
-                    if ((Ball.x + Ball.width >= Brick.x) and (Ball.x <= Brick.x + Brick.width)) and ((Brick.y <= Ball.y+Ball.height <= Brick.y+Brick.height) or (Brick.y <= Ball.y <= Brick.y+Brick.height)):
+                    if ((Ball.x + Ball.width >= Brick.x) and (Ball.x <= Brick.x + Brick.width)) and ((Brick.y <= Ball.y+Ball.height <= Brick.y+Brick.height) and (Brick.y <= Ball.y <= Brick.y+Brick.height)):
                         Ball.xv = Ball.xv * -1
                         #print("------------------------------\nBall has hit Brick on x, point gained\n------------------------------")
                         Bricks.remove(Brick)
-                    elif ((Ball.y + Ball.height >= Brick.y) and (Ball.y <= Brick.y + Brick.height)) and ((Brick.x <= Ball.x+Ball.width <= Brick.x+Brick.width) or (Brick.x <= Ball.x <= Brick.x+Brick.width)):
+                    elif ((Ball.y + Ball.height >= Brick.y) and (Ball.y <= Brick.y + Brick.height)) and ((Brick.x <= Ball.x+Ball.width <= Brick.x+Brick.width) and (Brick.x <= Ball.x <= Brick.x+Brick.width)):
                         Ball.yv = Ball.yv * -1
                         #print("------------------------------\nBall has hit Brick on y, point gained\n------------------------------")
                         Bricks.remove(Brick)
