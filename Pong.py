@@ -286,7 +286,7 @@ def main():
             restartCounter += 1
             print(f"Restarting commencing, {restartCounter} out of 1000")
         
-        if restartCounter >= 1000:
+        if restartCounter >= 900:
             print("program restarting")
             main()
         tk.update()
