@@ -268,9 +268,9 @@ def main():
                 print("Good job! You hit all the Bricks")
                 gameWinStatus = "win"
                 BrickHitNotification = True
-            gameStatusLabel = Label(win, text = "You win!", font = ("helvetica", 30))
-            gameStatusLabel.place(x = 500, y = 75)
-            gameStatusLabel.pack()
+            # gameStatusLabel = Label(win, text = "You win!", font = ("helvetica", 30))
+            # gameStatusLabel.place(x = 500, y = 75)
+            # gameStatusLabel.pack()
             
         for Barrier in Barriers:
             Barrier.draw()
