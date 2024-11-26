@@ -1,5 +1,6 @@
 from tkinter import *
 import time
+import random
 from random import randint
 
 global lives
@@ -31,7 +32,7 @@ def main():
     BrickHitNotification = False
     gameWinStatus = "Loading"
     gamemodeSwitchTimer = 0
-    speedMultiplier = 6
+    speedMultiplier = 8
     currentBrickCoords = [0,0]
 
     def rgb_to_hex(r, g, b):
@@ -52,6 +53,15 @@ def main():
             
         def draw(self):
             return win.create_oval(Ball.x,Ball.y,Ball.x+Ball.width,Ball.y+Ball.height,fill="blue",outline="blue")
+        
+        def change_angle(self):
+            Ball.xv += random.uniform(-0.4, 0.4)
+            Ball.yv += random.uniform(-0.4, 0.4) 
+
+            speed = (Ball.xv**2 + Ball.yv**2)**0.5  
+            wantedSpeed = 1 * speed  
+            
+            Ball.xv, Ball.yv = Ball.xv / speed * wantedSpeed, Ball.yv / speed * wantedSpeed
         
         def check_collision(self, other):
             return (self.x < other.x + other.width and self.x + self.width > other.x and self.y < other.y + other.height and self.y + self.height > other.y)
@@ -181,47 +191,54 @@ def main():
             for Ball in Balls:
                 if gameMode == "ai":
                     if paddle1.x + (paddle1.width/2) < Ball.x:
-                        paddle1.x += 5
+                        paddle1.x += (5 + (Ball.xv *0.5))
                     elif paddle1.x + (paddle1.width/2) > Ball.x + Ball.width:
-                        paddle1.x -= 5
+                        paddle1.x -= (5 - (Ball.xv *0.5))
                 Ball.x = Ball.x+Ball.xv
                 Ball.y = Ball.y+Ball.yv
                 
-                if Ball.x<0 or Ball.x>winWidth-Ball.width:
+                if Ball.x<=0 or Ball.x>=winWidth-Ball.width:
                     Ball.xv=Ball.xv*-1
+                    Ball.change_angle()
                     #print("------------------------------\nBall hit X barrier\n------------------------------")
                     
-                if Ball.y<0:
+                if Ball.y<=0:
                     Ball.yv = Ball.yv*-1
+                    Ball.change_angle()
                     #print("------------------------------\nBall hit upper Y barrier\n------------------------------")
                     
-                if Ball.y >winHeight-Ball.height:
+                if Ball.y >=winHeight-Ball.height:
                     #print("------------------------------\nBall hit lower Y barrier, life lost\n------------------------------")
                     lives = lives - 1
                     Ball.x = winWidth/2 + randint(-10,10)
                     Ball.y = winHeight/2
                     
-                if paddle1.x < Ball.x< paddle1.x+ paddle1.width and Ball.y+Ball.height>paddle1.y and Ball.y+Ball.height < paddle1.y+10:
+                if paddle1.x <= Ball.x <= paddle1.x+ paddle1.width and Ball.y+Ball.height>=paddle1.y and Ball.y+Ball.height <= paddle1.y+10:
                     Ball.yv = Ball.yv * -1
+                    Ball.change_angle()
                     #print("------------------------------\nBall has hit paddle\n------------------------------")
                 
                 for Barrier in Barriers:
                     if ((Ball.x + Ball.width >= Barrier.x) and (Ball.x <= Barrier.x + Barrier.width)) and ((Barrier.y <= Ball.y <= Barrier.y+10) and (not(Barrier.y <= Ball.y+Ball.height <= Barrier.y+10)) or (Barrier.y <= Ball.y+Ball.height <= Barrier.y+10 and(not(Barrier.y <= Ball.y <= Barrier.y+10)))):
                         Ball.yv = Ball.yv * -1
+                        Ball.change_angle()
                         #print("------------------------------\nBall has hit Barrier Block on x\n------------------------------")
                     
                     elif ((Ball.y + Ball.height >= Barrier.y) and (Ball.y <= Barrier.y + 10)) and ((Barrier.x <= Ball.x <= Barrier.x+Barrier.width) and (not(Barrier.x <= Ball.x+Ball.width <= Barrier.x+Barrier.width)) or (Barrier.x <= Ball.x+Ball.width <= Barrier.x+Barrier.width and(not(Barrier.x <= Ball.x <= Barrier.x+Barrier.width)))):
                         Ball.xv = Ball.xv * -1
+                        Ball.change_angle()
                         #print("------------------------------\nBall has hit Barrier Block on y\n------------------------------")
                     
                     
                 for Brick in Bricks:
                     if ((Ball.x + Ball.width >= Brick.x) and (Ball.x <= Brick.x + Brick.width)) and ((Brick.y <= Ball.y+Ball.height <= Brick.y+Brick.height) and (Brick.y <= Ball.y <= Brick.y+Brick.height)):
                         Ball.xv = Ball.xv * -1
+                        Ball.change_angle()
                         #print("------------------------------\nBall has hit Brick on x, point gained\n------------------------------")
                         Bricks.remove(Brick)
                     elif ((Ball.y + Ball.height >= Brick.y) and (Ball.y <= Brick.y + Brick.height)) and ((Brick.x <= Ball.x+Ball.width <= Brick.x+Brick.width) and (Brick.x <= Ball.x <= Brick.x+Brick.width)):
                         Ball.yv = Ball.yv * -1
+                        Ball.change_angle()
                         #print("------------------------------\nBall has hit Brick on y, point gained\n------------------------------")
                         Bricks.remove(Brick)
             for Barrier in Barriers:
