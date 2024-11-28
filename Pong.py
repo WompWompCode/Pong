@@ -55,8 +55,8 @@ def main():
             return win.create_oval(Ball.x,Ball.y,Ball.x+Ball.width,Ball.y+Ball.height,fill="blue",outline="blue")
         
         def change_angle(self):
-            Ball.xv += random.uniform(-0.4, 0.4)
-            Ball.yv += random.uniform(-0.4, 0.4) 
+            Ball.xv += random.uniform(-0.2, 0.2)
+            Ball.yv += random.uniform(-0.2, 0.2) 
 
             speed = (Ball.xv**2 + Ball.yv**2)**0.5  
             wantedSpeed = 1 * speed  
